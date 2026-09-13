@@ -1,0 +1,198 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+}
+
+
+.app {
+    min-height: 100vh;
+
+    display: grid;
+
+    grid-template-columns: 350px 1fr;
+
+    gap: 40px;
+
+    padding: 40px;
+}
+
+
+/* =========================
+   CONTROL PANEL
+========================= */
+
+.panel {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 12px;
+
+    height: fit-content;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+.panel h1 {
+    margin-bottom: 8px;
+}
+
+
+.subtitle {
+    color: #666;
+
+    margin-bottom: 30px;
+
+    line-height: 1.5;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+.form-group label {
+    display: block;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+
+input[type="text"],
+input[type="file"] {
+    width: 100%;
+}
+
+
+input[type="text"] {
+    padding: 12px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 6px;
+
+    font-size: 15px;
+}
+
+
+input[type="file"] {
+    font-size: 14px;
+}
+
+
+button {
+    width: 100%;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #16834a;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    margin-top: 10px;
+}
+
+
+button:hover {
+    background: #116b3c;
+}
+
+
+button:disabled {
+    background: #aaa;
+
+    cursor: not-allowed;
+}
+
+
+.download-btn {
+    background: #222;
+}
+
+
+.download-btn:hover {
+    background: #000;
+}
+
+
+/* =========================
+   PREVIEW
+========================= */
+
+.preview-section {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+.preview-section h2 {
+    margin-bottom: 20px;
+}
+
+
+.canvas-container {
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.08);
+
+    width: min(900px, 100%);
+}
+
+
+canvas {
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+
+    .app {
+        grid-template-columns: 1fr;
+
+        padding: 20px;
+    }
+
+    .panel {
+        width: 100%;
+    }
+
+}

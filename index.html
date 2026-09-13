@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The Accountant Show - Design Generator</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="app">
+
+        <!-- =========================
+             CONTROLS
+        ========================== -->
+
+        <section class="panel">
+
+            <h1>Design Generator</h1>
+
+            <p class="subtitle">
+                Upload a photo and enter the person's details.
+            </p>
+
+
+            <div class="form-group">
+
+                <label for="photoInput">
+                    Person's Photo
+                </label>
+
+                <input
+                    type="file"
+                    id="photoInput"
+                    accept="image/*"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="nameInput">
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="nameInput"
+                    placeholder="e.g. Mr Ibrahim Abdullahi"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="titleInput">
+                    Title
+                </label>
+
+                <input
+                    type="text"
+                    id="titleInput"
+                    placeholder="e.g. Associate Chartered Accountant"
+                >
+
+            </div>
+
+
+            <button id="generateBtn">
+                Generate Design
+            </button>
+
+
+            <button
+                id="downloadBtn"
+                class="download-btn"
+                disabled
+            >
+                Download Design
+            </button>
+
+        </section>
+
+
+        <!-- =========================
+             PREVIEW
+        ========================== -->
+
+        <section class="preview-section">
+
+            <h2>Preview</h2>
+
+            <div class="canvas-container">
+
+                <canvas id="designCanvas"></canvas>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
