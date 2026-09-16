@@ -7,192 +7,346 @@
 
 body {
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #222;
+
+    background: #f3f4f6;
+
+    color: #111;
 }
 
 
+/* =================================
+   APP
+================================= */
+
 .app {
+
     min-height: 100vh;
 
     display: grid;
 
-    grid-template-columns: 350px 1fr;
+    grid-template-columns: 400px 1fr;
 
-    gap: 40px;
-
-    padding: 40px;
-}
-
-
-/* =========================
-   CONTROL PANEL
-========================= */
-
-.panel {
-    background: white;
+    gap: 30px;
 
     padding: 30px;
 
-    border-radius: 12px;
+}
+
+
+/* =================================
+   CONTROLS
+================================= */
+
+.controls {
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.08);
 
     height: fit-content;
 
-    box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.08);
 }
 
 
-.panel h1 {
-    margin-bottom: 8px;
+.header h1 {
+
+    font-size: 26px;
+
+    margin-bottom: 6px;
+
 }
 
 
-.subtitle {
+.header p {
+
     color: #666;
 
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 
-    line-height: 1.5;
 }
 
 
+/* =================================
+   PERSON CARD
+================================= */
+
+.person-card {
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+    margin-bottom: 18px;
+
+    background: #fafafa;
+
+}
+
+
+.person-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+
+}
+
+
+.person-header h3 {
+
+    font-size: 16px;
+
+}
+
+
+.remove-btn {
+
+    border: none;
+
+    background: transparent;
+
+    color: #d11;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+}
+
+
+/* =================================
+   FORM
+================================= */
+
 .form-group {
-    margin-bottom: 20px;
+
+    margin-bottom: 15px;
+
 }
 
 
 .form-group label {
+
     display: block;
+
+    font-size: 13px;
 
     font-weight: bold;
 
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+
 }
 
 
-input[type="text"],
-input[type="file"] {
+.form-group input {
+
     width: 100%;
-}
 
-
-input[type="text"] {
-    padding: 12px;
+    padding: 10px;
 
     border: 1px solid #ccc;
 
     border-radius: 6px;
 
-    font-size: 15px;
+    font-size: 14px;
+
 }
 
 
-input[type="file"] {
-    font-size: 14px;
+.form-group input:focus {
+
+    outline: none;
+
+    border-color: #16834a;
+
+}
+
+
+/* =================================
+   BUTTONS
+================================= */
+
+.actions {
+
+    margin-top: 20px;
+
 }
 
 
 button {
+
     width: 100%;
 
-    padding: 13px;
+    padding: 12px;
 
     border: none;
 
-    border-radius: 6px;
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    margin-top: 8px;
+
+}
+
+
+.primary-btn {
 
     background: #16834a;
 
     color: white;
 
-    font-size: 15px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    margin-top: 10px;
 }
 
 
-button:hover {
+.primary-btn:hover {
+
     background: #116b3c;
+
 }
 
 
-button:disabled {
-    background: #aaa;
+.secondary-btn {
 
-    cursor: not-allowed;
+    background: #e8f5ed;
+
+    color: #16834a;
+
+}
+
+
+.secondary-btn:hover {
+
+    background: #d8eddf;
+
 }
 
 
 .download-btn {
-    background: #222;
+
+    background: #111;
+
+    color: white;
+
 }
 
 
 .download-btn:hover {
+
     background: #000;
+
 }
 
 
-/* =========================
+button:disabled {
+
+    background: #aaa;
+
+    cursor: not-allowed;
+
+}
+
+
+/* =================================
    PREVIEW
-========================= */
+================================= */
 
 .preview-section {
+
     display: flex;
 
     flex-direction: column;
 
     align-items: center;
+
 }
 
 
-.preview-section h2 {
-    margin-bottom: 20px;
+.preview-header {
+
+    width: min(900px, 100%);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+
 }
 
 
-.canvas-container {
+.preview-header h2 {
+
+    font-size: 20px;
+
+}
+
+
+#previewStatus {
+
+    color: #777;
+
+    font-size: 13px;
+
+}
+
+
+.canvas-wrapper {
+
+    width: min(900px, 100%);
+
     background: white;
 
-    padding: 20px;
+    padding: 15px;
 
     border-radius: 12px;
 
     box-shadow:
-        0 5px 20px rgba(0, 0, 0, 0.08);
+        0 4px 20px rgba(0, 0, 0, 0.08);
 
-    width: min(900px, 100%);
 }
 
 
 canvas {
+
     display: block;
 
     width: 100%;
 
     height: auto;
+
 }
 
 
-/* =========================
+/* =================================
    MOBILE
-========================= */
+================================= */
 
 @media (max-width: 900px) {
 
     .app {
+
         grid-template-columns: 1fr;
 
-        padding: 20px;
-    }
+        padding: 15px;
 
-    .panel {
-        width: 100%;
     }
 
 }

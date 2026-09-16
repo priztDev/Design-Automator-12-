@@ -1,23 +1,35 @@
-const photoInput = document.getElementById("photoInput");
-const nameInput = document.getElementById("nameInput");
-const titleInput = document.getElementById("titleInput");
+// ========================================
+// ELEMENTS
+// ========================================
 
-const generateBtn = document.getElementById("generateBtn");
-const downloadBtn = document.getElementById("downloadBtn");
+const peopleContainer =
+    document.getElementById("peopleContainer");
 
-const canvas = document.getElementById("designCanvas");
-const ctx = canvas.getContext("2d");
+const addPersonBtn =
+    document.getElementById("addPersonBtn");
+
+const generateAllBtn =
+    document.getElementById("generateAllBtn");
+
+const downloadAllBtn =
+    document.getElementById("downloadAllBtn");
+
+const canvas =
+    document.getElementById("designCanvas");
+
+const ctx =
+    canvas.getContext("2d");
+
+const previewStatus =
+    document.getElementById("previewStatus");
 
 
 // ========================================
-// CANVAS SIZE
+// SETTINGS
 // ========================================
 
-const CANVAS_WIDTH = 1080;
-const CANVAS_HEIGHT = 1080;
-
-canvas.width = CANVAS_WIDTH;
-canvas.height = CANVAS_HEIGHT;
+const WIDTH = 1080;
+const HEIGHT = 1080;
 
 
 // ========================================
@@ -30,205 +42,266 @@ template.src = "./assets/template.jpeg";
 
 
 // ========================================
-// UPLOADED PHOTO
+// GENERATED DESIGNS
 // ========================================
 
-let uploadedPhoto = null;
+let generatedDesigns = [];
 
 
 // ========================================
-// PHOTO UPLOAD
+// PERSON DATA
 // ========================================
 
-photoInput.addEventListener("change", function () {
+let personCount = 0;
 
-    const file = photoInput.files[0];
+// ========================================
+// UPDATE ACTION BUTTONS
+// ========================================
 
-    if (!file) {
-        return;
+function updateActionButtons() {
+
+    const people =
+        document.querySelectorAll(".person-card");
+
+    const count =
+        people.length;
+
+
+    if (count <= 1) {
+
+        generateAllBtn.textContent =
+            "Generate";
+
+        downloadAllBtn.textContent =
+            "Download PNG";
+
     }
 
+    else {
 
-    const reader = new FileReader();
+        generateAllBtn.textContent =
+            "Generate All";
 
+        downloadAllBtn.textContent =
+            "Download All ZIP";
 
-    reader.onload = function (event) {
-
-        const image = new Image();
-
-
-        image.onload = function () {
-
-            uploadedPhoto = image;
-
-            console.log("Photo loaded.");
-
-        };
-
-
-        image.src = event.target.result;
-
-    };
-
-
-    reader.readAsDataURL(file);
-
-});
-
-
-// ========================================
-// GENERATE BUTTON
-// ========================================
-
-generateBtn.addEventListener("click", function () {
-
-    if (!uploadedPhoto) {
-
-        alert("Please upload a photo.");
-
-        return;
     }
-
-
-    if (!nameInput.value.trim()) {
-
-        alert("Please enter the person's name.");
-
-        return;
-    }
-
-
-    if (!titleInput.value.trim()) {
-
-        alert("Please enter the person's title.");
-
-        return;
-    }
-
-
-    generateDesign();
-
-});
-
-
-// ========================================
-// GENERATE DESIGN
-// ========================================
-
-function generateDesign() {
-
-    // Clear canvas
-    ctx.clearRect(
-        0,
-        0,
-        CANVAS_WIDTH,
-        CANVAS_HEIGHT
-    );
-
-
-    // ====================================
-    // DRAW TEMPLATE
-    // ====================================
-
-    ctx.drawImage(
-        template,
-        0,
-        0,
-        CANVAS_WIDTH,
-        CANVAS_HEIGHT
-    );
-
-
-    // ====================================
-    // PHOTO POSITION
-    // ====================================
-
-    const photoX = 322;
-    const photoY = 47;
-
-    const photoWidth = 680;
-    const photoHeight = 681;
-
-
-    // Draw the uploaded photo
-    // while keeping its proportions.
-
-    drawImageCover(
-        uploadedPhoto,
-        photoX,
-        photoY,
-        photoWidth,
-        photoHeight
-    );
-
-
-    // ====================================
-    // NAME
-    // ====================================
-
-    const name = nameInput.value.trim();
-
-
-    ctx.save();
-
-    ctx.font = "bold 48px Arial";
-
-    ctx.fillStyle = "#ffffff";
-
-    ctx.textAlign = "center";
-
-    ctx.textBaseline = "middle";
-
-
-    ctx.fillText(
-        name,
-        680,
-        870
-    );
-
-
-    ctx.restore();
-
-
-    // ====================================
-    // TITLE
-    // ====================================
-
-    const title = titleInput.value.trim();
-
-
-    ctx.save();
-
-    ctx.font = "bold 38px Arial";
-
-    ctx.fillStyle = "#ffffff";
-
-    ctx.textAlign = "center";
-
-    ctx.textBaseline = "middle";
-
-
-    ctx.fillText(
-        title,
-        680,
-        925
-    );
-
-
-    ctx.restore();
-
-
-    // ====================================
-    // ENABLE DOWNLOAD
-    // ====================================
-
-    downloadBtn.disabled = false;
 
 }
 
 
 // ========================================
-// IMAGE COVER FUNCTION
+// ADD PERSON
+// ========================================
+
+function addPerson() {
+
+    personCount++;
+
+    const card =
+        document.createElement("div");
+
+    card.className = "person-card";
+
+    card.dataset.person =
+        personCount;
+
+
+    card.innerHTML = `
+
+        <div class="person-header">
+
+            <h3>
+                Person ${personCount}
+            </h3>
+
+            <button
+                type="button"
+                class="remove-btn"
+            >
+                Remove
+            </button>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Photo
+            </label>
+
+            <input
+                type="file"
+                class="photo-input"
+                accept="image/*"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Name
+            </label>
+
+            <input
+                type="text"
+                class="name-input"
+                placeholder="e.g. Mr Ibrahim Abdullahi"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Title
+            </label>
+
+            <input
+                type="text"
+                class="title-input"
+                placeholder="e.g. Associate Chartered Accountant"
+            >
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label>
+                Membership Number
+            </label>
+
+            <input
+                type="text"
+                class="membership-input"
+                placeholder="e.g. MB-0034"
+            >
+
+        </div>
+
+    `;
+
+
+    peopleContainer.appendChild(card);
+
+
+    // Remove button
+
+    const removeBtn =
+        card.querySelector(".remove-btn");
+
+
+    removeBtn.addEventListener(
+        "click",
+        function () {
+
+            card.remove();
+
+            updatePersonNumbers();
+
+        }
+    );
+    updateActionButtons();
+
+    removeBtn.addEventListener(
+    "click",
+    function () {
+
+            card.remove();
+
+            updatePersonNumbers();
+
+            updateActionButtons();
+
+        }
+    );
+
+
+    updateActionButtons();
+    
+}
+
+
+// ========================================
+// UPDATE PERSON NUMBERS
+// ========================================
+
+function updatePersonNumbers() {
+
+    const cards =
+        document.querySelectorAll(".person-card");
+
+
+    cards.forEach(
+        (card, index) => {
+
+            card.querySelector("h3")
+                .textContent =
+                `Person ${index + 1}`;
+
+        }
+    );
+
+}
+
+
+// ========================================
+// READ IMAGE
+// ========================================
+
+function readImage(file) {
+
+    return new Promise(
+        (resolve, reject) => {
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    const image =
+                        new Image();
+
+
+                    image.onload =
+                        function () {
+
+                            resolve(image);
+
+                        };
+
+
+                    image.onerror =
+                        reject;
+
+
+                    image.src =
+                        event.target.result;
+
+                };
+
+
+            reader.onerror =
+                reject;
+
+
+            reader.readAsDataURL(file);
+
+        }
+    );
+
+}
+
+
+// ========================================
+// DRAW IMAGE WITH COVER CROP
 // ========================================
 
 function drawImageCover(
@@ -248,16 +321,18 @@ function drawImageCover(
 
 
     let sourceWidth;
+
     let sourceHeight;
+
     let sourceX;
+
     let sourceY;
 
 
     if (imageRatio > boxRatio) {
 
-        // Image is wider than the box
-
-        sourceHeight = image.height;
+        sourceHeight =
+            image.height;
 
         sourceWidth =
             image.height * boxRatio;
@@ -267,11 +342,12 @@ function drawImageCover(
 
         sourceY = 0;
 
-    } else {
+    }
 
-        // Image is taller than the box
+    else {
 
-        sourceWidth = image.width;
+        sourceWidth =
+            image.width;
 
         sourceHeight =
             image.width / boxRatio;
@@ -285,10 +361,12 @@ function drawImageCover(
 
 
     ctx.drawImage(
+
         image,
 
         sourceX,
         sourceY,
+
         sourceWidth,
         sourceHeight,
 
@@ -296,27 +374,529 @@ function drawImageCover(
         y,
         width,
         height
+
     );
 
 }
 
 
 // ========================================
+// DRAW TEXT WITH AUTO-SHRINK
+// ========================================
+
+function drawFittedText(
+    text,
+    x,
+    y,
+    maxWidth,
+    startingSize,
+    weight = "bold"
+) {
+
+    let fontSize =
+        startingSize;
+
+
+    do {
+
+        ctx.font =
+            `${weight} ${fontSize}px Arial`;
+
+        fontSize--;
+
+    }
+
+    while (
+        ctx.measureText(text).width >
+        maxWidth &&
+        fontSize > 15
+    );
+
+
+    ctx.fillText(
+        text,
+        x,
+        y
+    );
+
+}
+
+
+// ========================================
+// GENERATE DESIGN
+// ========================================
+
+async function generateDesign(person) {
+
+    ctx.clearRect(
+        0,
+        0,
+        WIDTH,
+        HEIGHT
+    );
+
+
+    // ====================================
+    // TEMPLATE
+    // ====================================
+
+    ctx.drawImage(
+        template,
+        0,
+        0,
+        WIDTH,
+        HEIGHT
+    );
+
+
+    // ====================================
+    // PHOTO
+    // ====================================
+
+    const photoX = 322;
+
+    const photoY = 47;
+
+    const photoWidth = 680;
+
+    const photoHeight = 681;
+
+
+    drawImageCover(
+
+        person.photo,
+
+        photoX,
+        photoY,
+
+        photoWidth,
+        photoHeight
+
+    );
+
+
+    // ====================================
+    // MEMBERSHIP NUMBER
+    // ====================================
+
+    ctx.save();
+
+
+    ctx.fillStyle =
+        "#000000";
+
+
+    ctx.font =
+        "bold 45px Arial";
+
+
+    ctx.textAlign =
+        "center";
+
+
+    ctx.textBaseline =
+        "middle";
+
+
+    ctx.translate(
+        112,
+        440
+    );
+
+
+    ctx.rotate(
+        -Math.PI / 2
+    );
+
+
+    ctx.fillText(
+        person.membership,
+        0,
+        0
+    );
+
+
+    ctx.restore();
+
+
+    // ====================================
+    // NAME
+    // ====================================
+
+    ctx.save();
+
+
+    ctx.fillStyle =
+        "#ffffff";
+
+
+    ctx.textAlign =
+        "center";
+
+
+    ctx.textBaseline =
+        "middle";
+
+
+    drawFittedText(
+
+        person.name,
+
+        680,
+
+        870,
+
+        600,
+
+        48,
+
+        "bold"
+
+    );
+
+
+    ctx.restore();
+
+
+    // ====================================
+    // TITLE
+    // ====================================
+
+    ctx.save();
+
+
+    ctx.fillStyle =
+        "#ffffff";
+
+
+    ctx.textAlign =
+        "center";
+
+
+    ctx.textBaseline =
+        "middle";
+
+
+    drawFittedText(
+
+        person.title,
+
+        680,
+
+        925,
+
+        700,
+
+        38,
+
+        "bold"
+
+    );
+
+
+    ctx.restore();
+
+
+    // ====================================
+    // RETURN IMAGE
+    // ====================================
+
+    return canvas.toDataURL(
+        "image/png"
+    );
+
+}
+
+
+// ========================================
+// GET PEOPLE
+// ========================================
+
+async function getPeople() {
+
+    const cards =
+        document.querySelectorAll(
+            ".person-card"
+        );
+
+
+    const people = [];
+
+
+    for (const card of cards) {
+
+        const photoFile =
+            card.querySelector(
+                ".photo-input"
+            ).files[0];
+
+
+        const name =
+            card.querySelector(
+                ".name-input"
+            ).value.trim();
+
+
+        const title =
+            card.querySelector(
+                ".title-input"
+            ).value.trim();
+
+
+        const membership =
+            card.querySelector(
+                ".membership-input"
+            ).value.trim();
+
+
+        if (!photoFile) {
+
+            alert(
+                "Please upload a photo for every person."
+            );
+
+            return null;
+
+        }
+
+
+        if (!name) {
+
+            alert(
+                "Please enter a name for every person."
+            );
+
+            return null;
+
+        }
+
+
+        if (!title) {
+
+            alert(
+                "Please enter a title for every person."
+            );
+
+            return null;
+
+        }
+
+
+        if (!membership) {
+
+            alert(
+                "Please enter a membership number for every person."
+            );
+
+            return null;
+
+        }
+
+
+        const photo =
+            await readImage(photoFile);
+
+
+        people.push({
+
+            photo,
+            name,
+            title,
+            membership
+
+        });
+
+    }
+
+
+    return people;
+
+}
+
+
+// ========================================
+// GENERATE ALL
+// ========================================
+
+generateAllBtn.addEventListener(
+    "click",
+    async function () {
+
+        const people =
+            await getPeople();
+
+
+        if (!people) {
+            return;
+        }
+
+
+        if (people.length === 0) {
+
+            alert(
+                "Please add at least one person."
+            );
+
+            return;
+
+        }
+
+
+        generatedDesigns = [];
+
+
+        previewStatus.textContent =
+            "Generating...";
+
+
+        for (
+            let i = 0;
+            i < people.length;
+            i++
+        ) {
+
+            const result =
+                await generateDesign(
+                    people[i]
+                );
+
+
+            generatedDesigns.push({
+
+                name: people[i].name,
+
+                data: result
+
+            });
+
+
+            // Keep last generated design visible
+
+            if (
+                i === people.length - 1
+            ) {
+
+                previewStatus.textContent =
+                    `${people.length} design(s) generated`;
+
+            }
+
+        }
+
+
+        downloadAllBtn.disabled =
+            false;
+
+    }
+);
+
+
+// ========================================
 // DOWNLOAD
 // ========================================
 
-downloadBtn.addEventListener(
+downloadAllBtn.addEventListener(
     "click",
-    function () {
+    async function () {
 
-        const name =
-            nameInput.value.trim();
+        if (
+            generatedDesigns.length === 0
+        ) {
+
+            return;
+
+        }
 
 
-        const safeName =
-            name.replace(
-                /[^a-z0-9]/gi,
-                "_"
+        // ====================================
+        // SINGLE PERSON
+        // ====================================
+
+        if (
+            generatedDesigns.length === 1
+        ) {
+
+            const design =
+                generatedDesigns[0];
+
+
+            const link =
+                document.createElement("a");
+
+
+            link.href =
+                design.data;
+
+
+            const safeName =
+                design.name
+                    .replace(
+                        /[^a-z0-9]/gi,
+                        "_"
+                    );
+
+
+            link.download =
+                `${safeName}.png`;
+
+
+            link.click();
+
+
+            return;
+
+        }
+
+
+        // ====================================
+        // MULTIPLE PEOPLE
+        // ====================================
+
+        const zip =
+            new JSZip();
+
+
+        generatedDesigns.forEach(
+            (design, index) => {
+
+                const base64 =
+                    design.data
+                        .split(",")[1];
+
+
+                const safeName =
+                    design.name
+                        .replace(
+                            /[^a-z0-9]/gi,
+                            "_"
+                        );
+
+
+                zip.file(
+
+                    `${index + 1}_${safeName}.png`,
+
+                    base64,
+
+                    {
+                        base64: true
+                    }
+
+                );
+
+            }
+        );
+
+
+        const zipBlob =
+            await zip.generateAsync({
+                type: "blob"
+            });
+
+
+        const url =
+            URL.createObjectURL(
+                zipBlob
             );
 
 
@@ -324,15 +904,39 @@ downloadBtn.addEventListener(
             document.createElement("a");
 
 
-        link.download =
-            `${safeName || "design"}.png`;
-
-
         link.href =
-            canvas.toDataURL("image/png");
+            url;
+
+
+        link.download =
+            "accountant-show-designs.zip";
 
 
         link.click();
 
+
+        URL.revokeObjectURL(url);
+
     }
 );
+
+
+// ========================================
+// ADD PERSON BUTTON
+// ========================================
+
+addPersonBtn.addEventListener(
+    "click",
+    function () {
+
+        addPerson();
+
+    }
+);
+
+
+// ========================================
+// INITIAL PERSON
+// ========================================
+
+addPerson();
